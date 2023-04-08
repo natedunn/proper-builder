@@ -91,10 +91,7 @@ export default function BuildPage() {
           )}
         >
           <div class='min-h-0'>
-            <Heading tag='h1'>
-              Get your Mac up and <br />
-              running fast.
-            </Heading>
+            <Heading tag='h1'>Install all your Mac's dependencies at once.</Heading>
             <ol class='mt-6 flex items-center gap-4 rounded-2xl bg-zinc-900 p-4'>
               <For each={['Choose origin', 'Search for dependencies', 'Add to queue', 'Download']}>
                 {(item, index) => <Step number={index() + 1}>{item}</Step>}
