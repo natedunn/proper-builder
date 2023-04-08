@@ -134,7 +134,7 @@ export default function BuildPage() {
                     <For
                       each={results?.()}
                       children={(result, index) => {
-                        if (!result?.package || index() > 5) return null;
+                        if (!result?.package || index() > 4) return null;
 
                         const { name, description } = result.package;
                         return (
