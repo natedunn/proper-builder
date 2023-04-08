@@ -159,19 +159,27 @@ export default function BuildPage() {
           </div>
         </div>
         <div class='container'>
-          <div class='relative'>
+          <div class='relative pb-10'>
             <Show when={queue() !== null}>
-              <h2 class='text-2xl font-bold'>Queued items</h2>
-              <ul class='mt-4 space-y-4'>
-                <For
-                  each={queue()}
-                  children={(item) => (
-                    <li>
-                      <QueueItem item={item} />
-                    </li>
-                  )}
-                />
-              </ul>
+              <div class='pb-10'>
+                <h2 class='text-2xl font-bold'>Queued items</h2>
+                <ul class='mt-4 space-y-4'>
+                  <For
+                    each={queue()}
+                    children={(item) => (
+                      <li>
+                        <QueueItem item={item} />
+                      </li>
+                    )}
+                  />
+                </ul>
+              </div>
+              <div class='sticky bottom-4'>
+                <div class='flex gap-3 rounded-xl bg-zinc-950 px-5 py-5'>
+                  <button class='button'>Download</button>
+                  <button class='button'>Clear all</button>
+                </div>
+              </div>
             </Show>
           </div>
         </div>
