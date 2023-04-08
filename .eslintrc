@@ -1,0 +1,8 @@
+{
+  "extends": ["eslint:recommended", "plugin:solid/typescript"],
+  "parser": "@typescript-eslint/parser",
+  "plugins": ["solid"],
+  "rules": {
+    // Only warn about unused variables, not errors
+    "no-unused-vars": "off"
+}
