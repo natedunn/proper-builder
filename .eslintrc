@@ -5,4 +5,5 @@
   "rules": {
     // Only warn about unused variables, not errors
     "no-unused-vars": "off"
+  }
 }

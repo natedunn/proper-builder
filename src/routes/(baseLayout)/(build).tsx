@@ -110,26 +110,6 @@ export default function BuildPage() {
             <div class='relative'>
               <button class='absolute m-3 flex h-[calc(100%-1.5rem)] max-w-[4rem] items-center justify-center rounded-lg bg-zinc-800 p-4 px-4 py-2 font-bold text-amber-50 transition-all duration-200 ease-in-out hover:bg-amber-500 hover:text-amber-950'>
                 npm
-                {/* <svg
-                  xmlns='http://www.w3.org/2000/svg'
-                  fill='none'
-                  class='h-4 '
-                  viewBox='0 0 540 210'
-                >
-                  <g clip-path='url(#a)'>
-                    <path
-                      fill='currentColor'
-                      fill-rule='evenodd'
-                      d='M540 0H0v180h150v30h120v-30h270V0ZM90 150H30V30h120v120h-30V60H90v90Zm90-120v150h60v-30h60V30H180Zm90 90h-30V60h30v60Zm60 30V30h180v120h-30V60h-30v90h-30V60h-30v90h-60Z'
-                      clip-rule='evenodd'
-                    />
-                  </g>
-                  <defs>
-                    <clipPath id='a'>
-                      <path fill='#fff' d='M0 0h540v210H0z' />
-                    </clipPath>
-                  </defs>
-                </svg> */}
               </button>
               <input
                 class='w-full rounded-xl border border-zinc-700 bg-zinc-950 py-5 pl-[90px] pr-5 text-2xl font-bold text-zinc-100 caret-amber-500 outline-0 ring-0 ring-transparent transition-all duration-300 ease-in-out placeholder:font-normal  placeholder:text-zinc-700 hover:border-zinc-600 focus:border-amber-500 focus:outline-0 focus:ring-4 focus:ring-amber-300/20'
