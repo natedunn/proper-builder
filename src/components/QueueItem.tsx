@@ -5,18 +5,6 @@ type QueueItemProps = {
 };
 
 export const QueueItem = (props: QueueItemProps) => {
-  // const originImage = () => {
-  //   switch (props.item.origin) {
-  //     case 'npm':
-  //       return '/img/npm.svg';
-  //     case 'yarn':
-  //       return '/img/yarn.svg';
-  //     case 'pnpm':
-  //       return '/img/pnpm.svg';
-  //     default:
-  //       return '/img/npm.svg';
-  //   }
-  // };
   return (
     <div class='flex items-center justify-between gap-4 rounded-xl border border-zinc-700 bg-zinc-800 p-4'>
       <div class='font-bold'>{props.item.name}</div>
