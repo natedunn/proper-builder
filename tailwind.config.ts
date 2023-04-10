@@ -20,7 +20,7 @@ export default {
     },
     extend: {
       fontFamily: {
-        sans: ['JetBrains Mono', ...defaultTheme.fontFamily.sans],
+        mono: ['JetBrains Mono', ...defaultTheme.fontFamily.mono],
       },
       boxShadow: {
         link: '0 -.1rem 0 0 rgb(255 255 255 / 25%) inset',
