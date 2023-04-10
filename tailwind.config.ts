@@ -1,7 +1,10 @@
+import type { Config } from 'tailwindcss';
+import defaultTheme from 'tailwindcss/defaultTheme';
+import formsPlugin from '@tailwindcss/forms';
+
 const maxWidth = '45rem';
 
-/** @type {import('tailwindcss').Config} */
-module.exports = {
+export default {
   content: ['./src/**/*.{html,js,jsx,ts,tsx}'],
   theme: {
     container: {
@@ -16,11 +19,17 @@ module.exports = {
       },
     },
     extend: {
+      fontFamily: {
+        sans: ['JetBrains Mono', ...defaultTheme.fontFamily.sans],
+      },
+      boxShadow: {
+        link: '0 -.1rem 0 0 rgb(255 255 255 / 25%) inset',
+      },
       gridTemplateRows: {
         '0fr': '0fr',
         '1fr': '1fr',
       },
     },
   },
-  plugins: [require('@tailwindcss/forms')],
-};
+  plugins: [formsPlugin()],
+} satisfies Config;
