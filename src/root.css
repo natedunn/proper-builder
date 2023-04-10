@@ -3,9 +3,45 @@
 @tailwind utilities;
 
 .button {
-  @apply rounded-lg bg-amber-500 px-4 py-2 font-bold text-zinc-900  hover:bg-amber-400;
+  @apply rounded-lg bg-amber-500 px-4 py-2.5 font-bold text-zinc-900  hover:bg-amber-400;
 }
 
 .link {
   @apply text-zinc-100 decoration-2 underline-offset-2 hover:text-amber-500 hover:underline;
+}
+
+.button-link {
+  @apply hover:bg-amber-600/10;
+  display: inline-flex;
+  gap: theme('spacing.1');
+  border-radius: theme('borderRadius.lg');
+  background-color: theme('colors.zinc.900');
+  padding-left: theme('spacing.4');
+  padding-right: theme('spacing.4');
+  padding-top: theme('spacing.[2.5]');
+  padding-bottom: theme('spacing.[2.5]');
+  font-weight: theme('fontWeight.bold');
+  color: theme('colors.white');
+  transition-property: theme('transitionProperty.all');
+  transition-duration: theme('transitionDuration.150');
+  transition-timing-function: theme('transitionTimingFunction.in-out');
+  transition-delay: theme('transitionDelay.0');
+
+  & > * {
+    transition-property: theme('transitionProperty.all');
+    transition-duration: theme('transitionDuration.150');
+    transition-timing-function: theme('transitionTimingFunction.in-out');
+    transition-delay: theme('transitionDelay.0');
+    text-decoration-color: rgb(255, 255, 255, 0);
+  }
+
+  &:hover {
+    color: theme('colors.amber.50');
+    &:hover > *:not(.button-icon) {
+      text-decoration: underline;
+      text-decoration-thickness: theme('textDecorationThickness.2');
+      text-underline-offset: theme('textUnderlineOffset.4');
+      text-decoration-color: rgb(255, 255, 255, 0.25);
+    }
+  }
 }
