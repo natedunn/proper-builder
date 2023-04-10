@@ -5,3 +5,7 @@
 .button {
   @apply rounded-lg bg-amber-500 px-4 py-2 font-bold text-zinc-900  hover:bg-amber-400;
 }
+
+.link {
+  @apply text-zinc-100 decoration-2 underline-offset-2 hover:text-amber-500 hover:underline;
+}

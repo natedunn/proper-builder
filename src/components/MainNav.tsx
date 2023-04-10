@@ -1,27 +1,24 @@
+import { A } from 'solid-start';
+
 export const MainNav = () => {
-  const linkClasses = `text-zinc-100 hover:underline`;
+  const linkClasses = `link text-zinc-100 hover:underline`;
   return (
     <div class='sticky top-0 flex items-center justify-between py-4'>
       <div>
-        <a class='text-xl font-bold' href='/'>
+        <A class='text-xl font-bold hover:text-amber-500' href='/'>
           Proper
-        </a>
+        </A>
       </div>
       <ul class=' flex gap-4'>
         <li>
-          <a class={linkClasses} href='/'>
+          <A class={linkClasses} href='/'>
             Build
-          </a>
+          </A>
         </li>
         <li>
-          <a class={linkClasses} href='/about'>
-            About
-          </a>
-        </li>
-        <li>
-          <a class={linkClasses} href='/how'>
+          <A class={linkClasses} href='/how'>
             How to use
-          </a>
+          </A>
         </li>
       </ul>
     </div>
