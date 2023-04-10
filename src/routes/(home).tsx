@@ -11,17 +11,18 @@ import { clsx } from 'clsx';
 import { A } from 'solid-start';
 import { FooterNav } from '~/components/FooterNav';
 import { MainNav } from '~/components/MainNav';
+import { Transition } from 'solid-transition-group';
 
 export const [queue, setQueue] = createSignal<QueueItemType[] | null>(null);
 export const [searchOrigin, setSearchOrigin] = createSignal('npm');
 export const [waitingForResults, setWaitingForResults] = createSignal(false);
 export const [searchIsActive, setSearchIsActive] = createSignal(false);
 export const [loadingSavedQueue, setLoadingSavedQueue] = createSignal(true);
+export const [foundResults, setFoundResults] = createSignal(false);
+export const [results, setResults] = createSignal<[] | NPMResultsType.NPMResult[]>([]);
 
 export default function BuildPage() {
   let inputRef: HTMLInputElement | undefined = undefined;
-
-  const [results, setResults] = createSignal<[] | NPMResultsType.NPMResult[]>([]);
 
   createEffect(() => {
     if (results().length > 0 || waitingForResults()) {
@@ -29,10 +30,15 @@ export default function BuildPage() {
     } else {
       setSearchIsActive(false);
     }
+
+    if (results().length > 0 && !searching.pending) {
+      setFoundResults(true);
+    } else {
+      setFoundResults(false);
+    }
   });
 
   onMount(() => {
-    console.log('Loading locally saved queue.');
     const savedQueue = localStorage.getItem('_queue');
     if (savedQueue) {
       setQueue(JSON.parse(savedQueue));
@@ -43,7 +49,7 @@ export default function BuildPage() {
   });
 
   const [searching, search] = createServerAction$(async (searchTerm: string) => {
-    console.log(searchTerm);
+    if (searchTerm === '') return [];
     const res = await server$.fetch(`https://api.npms.io/v2/search/suggestions?q=${searchTerm}`);
     const data: NPMResultsType.NPMResult[] | undefined = await res.json();
     return data ? data : [];
@@ -52,7 +58,7 @@ export default function BuildPage() {
   const handleChange = debounce(async (e: Event) => {
     const searchTerm = (e.target as HTMLInputElement).value;
     const results = await search(searchTerm);
-    setResults(results ?? []);
+    setResults(results);
     setWaitingForResults(false);
   }, 500);
 
@@ -83,6 +89,18 @@ export default function BuildPage() {
 
   return (
     <div class='bg-zinc-900 text-zinc-100'>
+      <Transition
+        enterActiveClass='transition duration-300'
+        enterClass='opacity-0'
+        enterToClass='opacity-100'
+        exitActiveClass='transition duration-300'
+        exitClass='opacity-100'
+        exitToClass='opacity-0'
+      >
+        <Show when={foundResults()}>
+          <div class='absolute bottom-0 left-0 right-0 top-0 z-20 bg-zinc-900/75' />
+        </Show>
+      </Transition>
       <div class='mx-auto flex min-h-screen flex-col'>
         {/* Header */}
         <div class='bg-zinc-800'>
@@ -118,8 +136,8 @@ export default function BuildPage() {
         </div>
 
         {/* Outlet */}
-        <div class='relative z-20 flex flex-auto flex-col bg-zinc-900'>
-          <div class='sticky top-0 z-10 bg-gradient-to-b from-zinc-900 via-zinc-900/75 to-transparent pb-6 pt-6'>
+        <div class='relative flex flex-auto flex-col bg-zinc-900'>
+          <div class='sticky top-0 z-30 bg-gradient-to-b from-zinc-900 via-zinc-900/75 to-transparent pb-6 pt-6'>
             <div class='container'>
               <div class='relative'>
                 <input
@@ -181,33 +199,42 @@ export default function BuildPage() {
                 </button>
               </div>
               <div class='relative'>
-                <Show when={results?.()?.length > 0 && !searching.pending}>
-                  <ul class='absolute w-full space-y-6 rounded-xl bg-zinc-950 p-4'>
-                    {
-                      <For
-                        each={results?.()}
-                        children={(result, index) => {
-                          if (!result?.package || index() > 4) return null;
+                <Transition
+                  enterActiveClass='transition-all duration-300 ease-in-out'
+                  enterClass='opacity-0 -translate-y-4'
+                  enterToClass='opacity-100 translate-y-0'
+                  exitActiveClass='transition-all duration-300 ease-in-out'
+                  exitClass='opacity-100'
+                  exitToClass='opacity-0'
+                >
+                  <Show when={foundResults()}>
+                    <ul class='absolute top-2 w-full space-y-6 divide-y rounded-xl bg-zinc-950 p-5'>
+                      {
+                        <For
+                          each={results()}
+                          children={(result, index) => {
+                            if (!result?.package || index() > 4) return null;
 
-                          const { name, description } = result.package;
-                          return (
-                            <li>
-                              <h2 class='font-bold'>{name}</h2>
-                              <p>{description ?? 'No description'}</p>
-                              <button
-                                onClick={() => {
-                                  result?.package ? addToQueue(result.package) : null;
-                                }}
-                              >
-                                Add to manifest
-                              </button>
-                            </li>
-                          );
-                        }}
-                      />
-                    }
-                  </ul>
-                </Show>
+                            const { name, description } = result.package;
+                            return (
+                              <li class='pt-4'>
+                                <h2 class='font-bold'>{name}</h2>
+                                <p>{description ?? 'No description'}</p>
+                                <button
+                                  onClick={() => {
+                                    result?.package ? addToQueue(result.package) : null;
+                                  }}
+                                >
+                                  Add to manifest
+                                </button>
+                              </li>
+                            );
+                          }}
+                        />
+                      }
+                    </ul>
+                  </Show>
+                </Transition>
               </div>
             </div>
           </div>
