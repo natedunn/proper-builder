@@ -12,6 +12,7 @@ import { A } from 'solid-start';
 import { FooterNav } from '~/components/FooterNav';
 import { MainNav } from '~/components/MainNav';
 import { Transition } from 'solid-transition-group';
+import { HeaderAnimation } from '~/components/HeaderAnimation';
 
 export const [queue, setQueue] = createSignal<QueueItemType[] | null>(null);
 export const [searchOrigin, setSearchOrigin] = createSignal('npm');
@@ -103,7 +104,8 @@ export default function BuildPage() {
       </Transition>
       <div class='mx-auto flex min-h-screen flex-col'>
         {/* Header */}
-        <div class='bg-zinc-800'>
+        <div class='relative overflow-hidden bg-zinc-800'>
+          <HeaderAnimation />
           <div class='container relative z-40'>
             <MainNav />
           </div>
