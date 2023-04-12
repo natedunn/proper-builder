@@ -125,6 +125,10 @@ export default function BuildPage() {
             >
               <div class='min-h-0'>
                 <Heading tag='h1'>Manage all your Mac's dependencies — at once.</Heading>
+                <Heading tag='h2' variant='h4' class='mt-4 font-sans font-light'>
+                  Generate your own bash script to globally install from NPM, Homebrew, Mac app
+                  store, & Composer.
+                </Heading>
                 <ol class='mt-6 flex items-center gap-4 rounded-2xl bg-zinc-700/50 p-4'>
                   <For
                     each={['Choose origin', 'Search for dependencies', 'Add to queue', 'Download']}
