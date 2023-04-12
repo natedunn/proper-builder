@@ -18,7 +18,7 @@ export const MainNav = () => {
         </A>
         <div class='rounded-md bg-amber-500/50 px-2 py-0.5 text-xs font-bold'>Beta</div>
       </div>
-      <ul class=' flex gap-4'>
+      <ul class='flex gap-4 font-sans'>
         <li>
           <A class={linkClasses} href='/'>
             Build
