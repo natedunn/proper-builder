@@ -1,6 +1,6 @@
 import server$, { createServerAction$ } from 'solid-start/server';
 import { debounce } from '@solid-primitives/scheduled';
-import { Show, createSignal, onMount, For, createEffect } from 'solid-js';
+import { Show, createSignal, onMount, For, createEffect, onCleanup } from 'solid-js';
 
 import type { NPMResultsType, QueueItemType } from '~/lib/types';
 import { LoadingSpinner } from '../components/icons/LoadingSpinner';
@@ -18,12 +18,14 @@ export const [queue, setQueue] = createSignal<QueueItemType[] | null>(null);
 export const [searchOrigin, setSearchOrigin] = createSignal('npm');
 export const [waitingForResults, setWaitingForResults] = createSignal(false);
 export const [searchIsActive, setSearchIsActive] = createSignal(false);
+export const [searchIsFocused, setSearchIsFocused] = createSignal(false);
 export const [loadingSavedQueue, setLoadingSavedQueue] = createSignal(true);
 export const [foundResults, setFoundResults] = createSignal(false);
 export const [results, setResults] = createSignal<[] | NPMResultsType.NPMResult[]>([]);
 
 export default function BuildPage() {
   let inputRef: HTMLInputElement | undefined = undefined;
+  let searchWrapper: HTMLDivElement | undefined = undefined;
 
   createEffect(() => {
     if (results().length > 0 || waitingForResults()) {
@@ -37,7 +39,20 @@ export default function BuildPage() {
     } else {
       setFoundResults(false);
     }
+
+    if ((foundResults() && searchIsFocused()) || searching.pending) {
+      document.body.style.overflow = 'hidden';
+    } else {
+      document.body.style.overflow = 'auto';
+    }
   });
+
+  const closeSearch = (event: KeyboardEvent) => {
+    if (event.key === 'Escape') {
+      // setSearchIsFocused(false);
+      console.log('close search');
+    }
+  };
 
   onMount(() => {
     const savedQueue = localStorage.getItem('_queue');
@@ -47,6 +62,12 @@ export default function BuildPage() {
 
     inputRef?.focus();
     setLoadingSavedQueue(false);
+
+    searchWrapper?.addEventListener('keyup', closeSearch);
+  });
+
+  onCleanup(() => {
+    searchWrapper?.removeEventListener('keyup', closeSearch);
   });
 
   const [searching, search] = createServerAction$(async (searchTerm: string) => {
@@ -98,28 +119,32 @@ export default function BuildPage() {
         exitClass='opacity-100'
         exitToClass='opacity-0'
       >
-        <Show when={foundResults()}>
-          <div class='absolute bottom-0 left-0 right-0 top-0 z-20 bg-zinc-900/75' />
+        <Show when={(foundResults() && searchIsFocused()) || searching.pending}>
+          <div
+            class='fixed bottom-0 left-0 right-0 top-0 z-20 h-full bg-zinc-900/75'
+            onClick={() => setSearchIsFocused(false)}
+          />
         </Show>
       </Transition>
       <div class='mx-auto flex min-h-screen flex-col'>
         {/* Header */}
         <div class='relative overflow-hidden bg-zinc-800'>
           <HeaderAnimation />
-          <div class='container relative z-40'>
+          <div class='container relative z-10'>
             <MainNav />
           </div>
           <div
             class={clsx(
               'relative z-10 transition-all duration-500 ease-in-out',
-              searchIsActive() ? 'pb-0' : 'pb-12 pt-20'
+              (foundResults() && searchIsFocused()) || searching.pending ? 'pb-0' : 'pb-12 pt-20'
             )}
           >
             <div
               class={clsx(
                 'container grid grid-rows-1fr overflow-hidden opacity-100 transition-all duration-500 ease-in-out',
                 {
-                  '!grid-rows-0fr !opacity-0': searchIsActive(),
+                  '!grid-rows-0fr !opacity-0':
+                    (foundResults() && searchIsFocused()) || searching.pending,
                 }
               )}
             >
@@ -144,7 +169,7 @@ export default function BuildPage() {
         {/* Outlet */}
         <div class='relative flex flex-auto flex-col bg-zinc-900'>
           <div class='sticky top-0 z-30 bg-gradient-to-b from-zinc-900 via-zinc-900/75 to-transparent pb-6 pt-6'>
-            <div class='container'>
+            <div class='container' ref={searchWrapper}>
               <div class='relative'>
                 <input
                   class='peer relative z-0 w-full rounded-xl border border-zinc-700 bg-zinc-950/50 py-5 pl-[3.25rem] pr-5 text-2xl font-bold text-zinc-100 caret-amber-500 shadow-2xl shadow-black/50 outline-0 ring-0 ring-transparent backdrop-blur-lg transition-all duration-300 ease-in-out placeholder:font-normal placeholder:text-zinc-600 hover:border-zinc-600 focus:border-amber-500 focus:bg-zinc-900/50 focus:outline-0 focus:ring-4 focus:ring-amber-300/20'
@@ -156,6 +181,7 @@ export default function BuildPage() {
                   }}
                   ref={inputRef}
                   placeholder='Type to search...'
+                  onFocus={() => setSearchIsFocused(true)}
                 />
                 <div
                   class={`transition-color absolute left-0 top-0 z-10 mx-4 my-3 flex h-[calc(100%-1.5rem)] items-center justify-center text-zinc-500 duration-300 ease-in-out peer-focus:text-amber-500`}
@@ -213,7 +239,7 @@ export default function BuildPage() {
                   exitClass='opacity-100'
                   exitToClass='opacity-0'
                 >
-                  <Show when={foundResults()}>
+                  <Show when={foundResults() && searchIsFocused() && !waitingForResults()}>
                     <ul class='absolute top-2 w-full space-y-6 divide-y rounded-xl bg-zinc-950 p-5'>
                       {
                         <For
