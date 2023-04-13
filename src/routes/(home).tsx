@@ -8,25 +8,54 @@ import { QueueItem } from '~/components/QueueItem';
 import { Heading } from '~/components/Heading';
 import { Step } from '~/components/Step';
 import { clsx } from 'clsx';
-import { A } from 'solid-start';
 import { FooterNav } from '~/components/FooterNav';
 import { MainNav } from '~/components/MainNav';
 import { Transition } from 'solid-transition-group';
 import { HeaderAnimation } from '~/components/HeaderAnimation';
+import { SearchResults } from '~/components/SearchResults';
 
-export const [queue, setQueue] = createSignal<QueueItemType[] | null>(null);
-export const [searchOrigin, setSearchOrigin] = createSignal('npm');
-export const [waitingForResults, setWaitingForResults] = createSignal(false);
-export const [searchIsActive, setSearchIsActive] = createSignal(false);
-export const [searchIsFocused, setSearchIsFocused] = createSignal(false);
-export const [loadingSavedQueue, setLoadingSavedQueue] = createSignal(true);
-export const [foundResults, setFoundResults] = createSignal(false);
-export const [results, setResults] = createSignal<[] | NPMResultsType.NPMResult[]>([]);
+// Signals
+import { queue, setQueue } from '~/lib/signals';
+import { waitingForResults, setWaitingForResults } from '~/lib/signals';
+import { searchIsActive, setSearchIsActive } from '~/lib/signals';
+import { searchIsFocused, setSearchIsFocused } from '~/lib/signals';
+import { loadingSavedQueue, setLoadingSavedQueue } from '~/lib/signals';
+import { foundResults, setFoundResults } from '~/lib/signals';
+import { results, setResults } from '~/lib/signals';
 
 export default function BuildPage() {
+  //
+  // Element refs
   let inputRef: HTMLInputElement | undefined = undefined;
   let searchWrapper: HTMLDivElement | undefined = undefined;
 
+  //
+  // Server functions
+  const [searching, search] = createServerAction$(async (searchTerm: string) => {
+    if (searchTerm === '') return [];
+    const res = await server$.fetch(`https://api.npms.io/v2/search/suggestions?q=${searchTerm}`);
+    const data: NPMResultsType.NPMResult[] | undefined = await res.json();
+    return data ? data : [];
+  });
+
+  //
+  // Client functions
+  const closeSearch = (event: KeyboardEvent) => {
+    if (event.key === 'Escape') {
+      // setSearchIsFocused(false);
+      console.log('close search');
+    }
+  };
+
+  const handleChange = debounce(async (e: Event) => {
+    const searchTerm = (e.target as HTMLInputElement).value;
+    const results = await search(searchTerm);
+    setResults(results);
+    setWaitingForResults(false);
+  }, 500);
+
+  //
+  // Lifecycle methods
   createEffect(() => {
     if (results().length > 0 || waitingForResults()) {
       setSearchIsActive(true);
@@ -47,13 +76,6 @@ export default function BuildPage() {
     }
   });
 
-  const closeSearch = (event: KeyboardEvent) => {
-    if (event.key === 'Escape') {
-      // setSearchIsFocused(false);
-      console.log('close search');
-    }
-  };
-
   onMount(() => {
     const savedQueue = localStorage.getItem('_queue');
     if (savedQueue) {
@@ -69,45 +91,6 @@ export default function BuildPage() {
   onCleanup(() => {
     searchWrapper?.removeEventListener('keyup', closeSearch);
   });
-
-  const [searching, search] = createServerAction$(async (searchTerm: string) => {
-    if (searchTerm === '') return [];
-    const res = await server$.fetch(`https://api.npms.io/v2/search/suggestions?q=${searchTerm}`);
-    const data: NPMResultsType.NPMResult[] | undefined = await res.json();
-    return data ? data : [];
-  });
-
-  const handleChange = debounce(async (e: Event) => {
-    const searchTerm = (e.target as HTMLInputElement).value;
-    const results = await search(searchTerm);
-    setResults(results);
-    setWaitingForResults(false);
-  }, 500);
-
-  const addToQueue = (item: NPMResultsType.Package) => {
-    const newItem = {
-      name: item.name,
-      id: item.name,
-      origin: searchOrigin(),
-      version: item.version ?? '',
-    };
-
-    const savedQueue = localStorage.getItem('_queue');
-
-    // Return if already in queue
-    if (savedQueue) {
-      const parsedQueue = JSON.parse(savedQueue);
-      const alreadyInQueue = parsedQueue.find((i: QueueItemType) => i.name === newItem.name);
-      if (alreadyInQueue) {
-        console.log('Already in queue');
-        return;
-      }
-    }
-
-    localStorage.setItem('_queue', JSON.stringify([newItem, ...(queue() ?? [])]));
-
-    setQueue((prev) => [newItem, ...(prev ?? [])]);
-  };
 
   return (
     <div class='bg-zinc-900 text-zinc-100'>
@@ -240,31 +223,7 @@ export default function BuildPage() {
                   exitToClass='opacity-0'
                 >
                   <Show when={foundResults() && searchIsFocused() && !waitingForResults()}>
-                    <ul class='absolute top-2 w-full space-y-6 divide-y rounded-xl bg-zinc-950 p-5'>
-                      {
-                        <For
-                          each={results()}
-                          children={(result, index) => {
-                            if (!result?.package || index() > 4) return null;
-
-                            const { name, description } = result.package;
-                            return (
-                              <li class='pt-4'>
-                                <h2 class='font-bold'>{name}</h2>
-                                <p>{description ?? 'No description'}</p>
-                                <button
-                                  onClick={() => {
-                                    result?.package ? addToQueue(result.package) : null;
-                                  }}
-                                >
-                                  Add to manifest
-                                </button>
-                              </li>
-                            );
-                          }}
-                        />
-                      }
-                    </ul>
+                    <SearchResults />
                   </Show>
                 </Transition>
               </div>
