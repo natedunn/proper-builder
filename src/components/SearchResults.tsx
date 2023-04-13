@@ -3,6 +3,8 @@ import { queue, results, searchOrigin, setQueue } from '../lib/signals';
 import { NPMResultsType, QueueItemType } from '~/lib/types';
 
 export const SearchResults = () => {
+  //
+  // Client functions
   const addToQueue = (item: NPMResultsType.Package) => {
     const newItem = {
       name: item.name,
