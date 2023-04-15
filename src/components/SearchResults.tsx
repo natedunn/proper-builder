@@ -1,5 +1,15 @@
-import { For, Show } from 'solid-js';
-import { queue, results, searchOrigin, setQueue, setResults, setSearchTerm } from '../lib/signals';
+import { For, Show, createEffect, onCleanup, onMount } from 'solid-js';
+import {
+  focusedResult,
+  queue,
+  results,
+  searchIsActive,
+  searchOrigin,
+  setFocusedResult,
+  setQueue,
+  setResults,
+  setSearchTerm,
+} from '../lib/signals';
 import { NPMResultsType, QueueItemType } from '~/lib/types';
 
 export const SearchResults = (props: { inputRef: HTMLInputElement | undefined }) => {
@@ -33,6 +43,53 @@ export const SearchResults = (props: { inputRef: HTMLInputElement | undefined })
     props.inputRef.focus();
   };
 
+  const moveFocus = (e: KeyboardEvent) => {
+    if (!!results() && searchIsActive()) {
+      if (e.code === 'ArrowUp') {
+        e.preventDefault();
+        // eslint-disable-next-line solid/reactivity
+        setFocusedResult((s) => {
+          let prev = typeof s === 'number' ? s : 0;
+          if (prev <= 0) {
+            props.inputRef.focus();
+            setTimeout(() => props.inputRef?.select(), 0);
+            return null;
+          }
+          return prev - 1;
+        });
+      }
+      if (e.code === 'ArrowDown') {
+        e.preventDefault();
+        setFocusedResult((s) => {
+          let prev = typeof s === 'number' ? s : -1;
+          if (prev >= 4) return 4;
+          return prev + 1;
+        });
+      }
+    }
+  };
+
+  //
+  // Lifecycle
+  onMount(() => {
+    window.addEventListener('keydown', moveFocus);
+  });
+
+  onCleanup(() => {
+    window.removeEventListener('keydown', moveFocus);
+  });
+
+  //
+  // Effects
+  createEffect(() => {
+    if (focusedResult() !== null) {
+      const el = document.getElementById(`result-${focusedResult()}`);
+      if (el) {
+        el.focus();
+      }
+    }
+  });
+
   return (
     <ul class='absolute top-2 w-full rounded-xl border border-zinc-700 bg-zinc-950 p-3'>
       {/* When Empty */}
@@ -60,10 +117,12 @@ export const SearchResults = (props: { inputRef: HTMLInputElement | undefined })
             return (
               <li>
                 <button
+                  id={`result-${index()}`}
                   class='group relative flex w-full flex-col justify-start space-y-2 rounded-lg px-3.5 py-3 text-left hover:bg-zinc-800'
                   onClick={() => {
                     result?.package ? addToQueue(result.package) : null;
                   }}
+                  onFocus={() => setFocusedResult(index())}
                 >
                   <div class='flex w-full items-center justify-between gap-2'>
                     <h2 class='font-bold decoration-2 underline-offset-2 group-hover:underline'>

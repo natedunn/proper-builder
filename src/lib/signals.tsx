@@ -9,5 +9,5 @@ export const [searchTerm, setSearchTerm] = createSignal('');
 export const [loadingSavedQueue, setLoadingSavedQueue] = createSignal(true);
 export const [resultsResolved, setResultsResolved] = createSignal(false);
 export const [results, setResults] = createSignal<null | NPMResultsType.NPMResult[]>(null);
-
 export const [searchInputIsFocused, setSearchInputIsFocused] = createSignal(false);
+export const [focusedResult, setFocusedResult] = createSignal<null | number>(null);
