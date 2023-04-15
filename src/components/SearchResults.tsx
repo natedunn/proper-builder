@@ -1,8 +1,8 @@
 import { For, Show } from 'solid-js';
-import { queue, results, searchOrigin, setQueue } from '../lib/signals';
+import { queue, results, searchOrigin, setQueue, setResults, setSearchTerm } from '../lib/signals';
 import { NPMResultsType, QueueItemType } from '~/lib/types';
 
-export const SearchResults = () => {
+export const SearchResults = (props: { inputRef: HTMLInputElement | undefined }) => {
   //
   // Client functions
   const addToQueue = (item: NPMResultsType.Package) => {
@@ -28,6 +28,9 @@ export const SearchResults = () => {
     localStorage.setItem('_queue', JSON.stringify([newItem, ...(queue() ?? [])]));
 
     setQueue((prev) => [newItem, ...(prev ?? [])]);
+    setResults(null);
+    setSearchTerm('');
+    props.inputRef.focus();
   };
 
   return (

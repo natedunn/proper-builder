@@ -9,11 +9,16 @@ import { MainNav } from '~/components/MainNav';
 import { HeaderAnimation } from '~/components/HeaderAnimation';
 
 // Signals
-import { queue, setQueue } from '~/lib/signals';
+import { queue, searchIsActive, setQueue } from '~/lib/signals';
 import { loadingSavedQueue, setLoadingSavedQueue } from '~/lib/signals';
 import { Search } from '~/components/Search';
 
 export default function BuildPage() {
+  const handleClear = () => {
+    setQueue(null);
+    localStorage.removeItem('_queue');
+  };
+
   //
   // Lifecycle methods
   onMount(() => {
@@ -37,17 +42,15 @@ export default function BuildPage() {
           <div
             class={clsx(
               'relative z-10 transition-all duration-500 ease-in-out',
-              // (foundResults() && searchIsFocused()) || searching.pending ? 'pb-0' : 'pb-12 pt-20'
-              'pb-12 pt-20'
+              searchIsActive() ? 'pb-0' : 'pb-12 pt-20'
             )}
           >
             <div
               class={clsx(
-                'container grid grid-rows-1fr overflow-hidden opacity-100 transition-all duration-500 ease-in-out'
-                // {
-                //   '!grid-rows-0fr !opacity-0':
-                //     (foundResults() && searchIsFocused()) || searching.pending,
-                // }
+                'container grid grid-rows-1fr overflow-hidden opacity-100 transition-all duration-500 ease-in-out',
+                {
+                  '!grid-rows-0fr !opacity-0': searchIsActive(),
+                }
               )}
             >
               <div class='min-h-0'>
@@ -123,7 +126,7 @@ export default function BuildPage() {
                           <button class='button'>Export queue</button>
                         </div>
                         <div>
-                          <button class='button' onClick={() => setQueue(null)}>
+                          <button class='button' onClick={handleClear}>
                             Clear all
                           </button>
                         </div>

@@ -148,6 +148,7 @@ export const Search = () => {
             class='peer relative z-0 w-full rounded-xl border border-zinc-700 bg-zinc-950/50 py-5 pl-[3.25rem] pr-5 text-2xl font-bold text-zinc-100 caret-amber-500 shadow-2xl shadow-black/50 outline-0 ring-0 ring-transparent backdrop-blur-lg transition-all duration-300 ease-in-out placeholder:font-normal placeholder:text-zinc-600 hover:border-zinc-600 focus:border-amber-500 focus:bg-zinc-900/50 focus:outline-0 focus:ring-4 focus:ring-amber-300/20'
             name='search'
             type='text'
+            value={searchTerm()}
             onInput={handleInputChange}
             ref={inputRef}
             placeholder='Type to search...'
@@ -211,7 +212,7 @@ export const Search = () => {
             exitToClass='opacity-0'
           >
             <Show when={!!results() && searchIsActive()}>
-              <SearchResults />
+              <SearchResults inputRef={inputRef} />
             </Show>
           </Transition>
         </div>
