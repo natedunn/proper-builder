@@ -20,7 +20,7 @@ export const SearchResults = (props: { inputRef: HTMLInputElement | undefined })
       const parsedQueue = JSON.parse(savedQueue);
       const alreadyInQueue = parsedQueue.find((i: QueueItemType) => i.name === newItem.name);
       if (alreadyInQueue) {
-        console.log('Already in queue');
+        console.log('Item already in queue');
         return;
       }
     }
@@ -34,7 +34,7 @@ export const SearchResults = (props: { inputRef: HTMLInputElement | undefined })
   };
 
   return (
-    <ul class='absolute top-2 w-full space-y-6 divide-y rounded-xl bg-zinc-950 p-5'>
+    <ul class='absolute top-2 w-full rounded-xl border border-zinc-700 bg-zinc-950 p-3'>
       {/* When Empty */}
       <Show when={results()?.length === 0}>
         <li class='flex items-center space-x-3'>
@@ -56,17 +56,22 @@ export const SearchResults = (props: { inputRef: HTMLInputElement | undefined })
           children={(result, index) => {
             if (!result?.package || index() > 4) return null;
 
-            const { name, description } = result.package;
+            const { name, description, version } = result.package;
             return (
-              <li class='pt-4'>
-                <h2 class='font-bold'>{name}</h2>
-                <p>{description ?? 'No description'}</p>
+              <li>
                 <button
+                  class='group relative flex w-full flex-col justify-start space-y-2 rounded-lg px-3.5 py-3 text-left hover:bg-zinc-800'
                   onClick={() => {
                     result?.package ? addToQueue(result.package) : null;
                   }}
                 >
-                  Add to manifest
+                  <div class='flex w-full items-center justify-between gap-2'>
+                    <h2 class='font-bold decoration-2 underline-offset-2 group-hover:underline'>
+                      {name}
+                    </h2>
+                    {version ? <div class='text-zinc-500'>{version}</div> : null}
+                  </div>
+                  <p class='font-sans text-zinc-500'>{description ?? 'No description'}</p>
                 </button>
               </li>
             );
