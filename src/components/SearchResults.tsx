@@ -76,6 +76,7 @@ export const SearchResults = (props: { inputRef: HTMLInputElement | undefined })
   });
 
   onCleanup(() => {
+    setFocusedResult(null);
     window.removeEventListener('keydown', moveFocus);
   });
 
