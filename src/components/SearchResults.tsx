@@ -119,7 +119,7 @@ export const SearchResults = (props: { inputRef: HTMLInputElement | undefined })
               <li>
                 <button
                   id={`result-${index()}`}
-                  class='group relative flex w-full flex-col justify-start space-y-2 rounded-lg px-3.5 py-3 text-left hover:bg-zinc-800'
+                  class='group relative flex w-full flex-col justify-start space-y-2 rounded-lg px-3.5 py-3 text-left hocus:bg-zinc-800 hocus:outline-none'
                   onClick={() => {
                     result?.package ? addToQueue(result.package) : null;
                   }}

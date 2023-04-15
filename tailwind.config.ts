@@ -1,6 +1,7 @@
 import type { Config } from 'tailwindcss';
 import defaultTheme from 'tailwindcss/defaultTheme';
 import formsPlugin from '@tailwindcss/forms';
+import plugin from 'tailwindcss/plugin';
 
 const maxWidth = '45rem';
 
@@ -31,5 +32,13 @@ export default {
       },
     },
   },
-  plugins: [formsPlugin()],
+  plugins: [
+    formsPlugin(),
+    plugin(function ({ addVariant }) {
+      addVariant('hocus', ['&:hover', '&:focus']);
+      addVariant('factive', ['&:active', '&:focus']);
+      addVariant('all', ['&:active', '&:focus', '&:hover']);
+      addVariant('list', ['body.list-page &']);
+    }),
+  ],
 } satisfies Config;
