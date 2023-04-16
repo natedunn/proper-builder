@@ -1,18 +1,30 @@
-import { For, Show, createSignal } from 'solid-js';
+import { For, Show, createEffect, createSignal } from 'solid-js';
 import { origin, setOrigin } from '../lib/signals';
 import { Transition } from 'solid-transition-group';
 import { origins } from '~/lib/origins';
-import { OriginList } from './OriginList';
+import { OriginList } from './OriginDropdownList';
 
 export const [isOriginOptionsOpen, setIsOriginOptionsOpen] = createSignal(false);
 
-export const OriginOptions = () => {
+export const OriginDropdown = () => {
+  //
+  // Element refs
+  let buttonRef: HTMLButtonElement | undefined = undefined;
+
+  createEffect(() => {
+    if (isOriginOptionsOpen()) {
+      buttonRef?.blur();
+    }
+  });
+
   return (
     <>
       <button
+        ref={buttonRef}
         id='origin-button'
         class='flex h-full items-center space-x-1 rounded-lg bg-zinc-800 px-4 py-2 text-amber-50 transition-all duration-200 ease-in-out hover:bg-amber-500 hover:text-amber-950'
-        onClick={() => setIsOriginOptionsOpen((value) => !value)}
+        tabIndex={isOriginOptionsOpen() ? -1 : 0}
+        onClick={isOriginOptionsOpen() ? null : () => setIsOriginOptionsOpen((value) => !value)}
       >
         <div class='pointer-events-none'>
           {origins.find((originOption) => originOption.value === origin())?.title}

@@ -21,7 +21,7 @@ import { SearchResults } from './SearchResults';
 import { LoadingSpinner } from './icons/LoadingSpinner';
 
 import { useNavigate } from 'solid-start';
-import { OriginOptions } from './OriginButton';
+import { OriginDropdown } from './OriginDropdown';
 
 export const Search = () => {
   const navigate = useNavigate();
@@ -179,7 +179,7 @@ export const Search = () => {
             class='absolute right-0 top-0 z-10 m-3 flex h-[calc(100%-1.5rem)] items-center justify-center'
           >
             <div class='relative h-full'>
-              <OriginOptions />
+              <OriginDropdown />
             </div>
           </div>
         </div>
