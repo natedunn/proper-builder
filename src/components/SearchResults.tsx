@@ -10,12 +10,12 @@ import {
   setResults,
   setSearchTerm,
 } from '../lib/signals';
-import { NPMResultsType, QueueItemType } from '~/lib/types';
+import { NPMPackage, QueueItemType } from '~/lib/types';
 
 export const SearchResults = (props: { inputRef: HTMLInputElement | undefined }) => {
   //
   // Client functions
-  const addToQueue = (item: NPMResultsType.Package) => {
+  const addToQueue = (item: NPMPackage) => {
     const newItem = {
       name: item.name,
       id: item.name,

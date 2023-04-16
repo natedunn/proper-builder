@@ -1,4 +1,7 @@
-import * as NPMResultsType from './npm-res-types';
+import { NPMResponse, NPMPackage } from './response/npm';
+import { MASResponse, MASResult } from './response/mas';
+
+export { NPMResponse, NPMPackage, MASResponse, MASResult };
 
 export type Origin = 'npm' | 'cask' | 'homebrew' | 'composer' | 'mas';
 export type QueueItemType = {
@@ -7,5 +10,3 @@ export type QueueItemType = {
   version: string;
   id: string;
 };
-
-export { NPMResultsType };

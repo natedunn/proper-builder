@@ -1,3 +1,3 @@
-import * as NPMResultsType from "./lib/types/npm-res-types";
+import { NPMResponse } from './lib/types/response/npm';
 
-export { NPMResultsType };
+export { NPMResponse };

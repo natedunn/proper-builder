@@ -1,5 +1,7 @@
+export type NPMResponse = NPMResult[];
+
 export type NPMResult = {
-  package?: Package;
+  package?: NPMPackage;
   score?: Score;
   searchScore?: number;
   highlight?: string;
@@ -10,7 +12,7 @@ export type Flags = {
   unstable?: boolean;
 };
 
-export type Package = {
+export type NPMPackage = {
   name: string;
   scope?: Scope;
   version?: string;
@@ -42,7 +44,7 @@ export type Publisher = {
   email?: string;
 };
 
-export type Scope = "unscoped" | "node-rs";
+export type Scope = 'unscoped' | 'node-rs';
 
 export type Score = {
   final?: number;

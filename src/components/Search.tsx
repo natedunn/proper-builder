@@ -17,7 +17,7 @@ import {
   searchTerm,
   origin,
 } from '~/lib/signals';
-import { NPMResultsType, Origin } from '~/lib/types';
+import { Origin } from '~/lib/types';
 import { SearchResults } from './SearchResults';
 import { LoadingSpinner } from './icons/LoadingSpinner';
 
