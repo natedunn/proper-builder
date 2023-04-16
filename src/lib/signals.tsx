@@ -2,7 +2,7 @@ import { createSignal } from 'solid-js';
 import { NPMResultsType, QueueItemType } from './types';
 
 export const [queue, setQueue] = createSignal<QueueItemType[] | null>(null);
-export const [searchOrigin, setSearchOrigin] = createSignal('npm');
+export const [origin, setOrigin] = createSignal('npm');
 export const [waitingForResults, setWaitingForResults] = createSignal(false);
 export const [searchIsActive, setSearchIsActive] = createSignal(false);
 export const [searchTerm, setSearchTerm] = createSignal('');

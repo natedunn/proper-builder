@@ -61,10 +61,7 @@ export default function BuildPage() {
 
         {/* Outlet */}
         <div class='relative flex flex-auto flex-col bg-zinc-900'>
-          <div
-            id='search'
-            class='sticky top-0 z-30 bg-gradient-to-b from-zinc-900 via-zinc-900/75 to-transparent pb-6 pt-6'
-          >
+          <div class='sticky top-0 z-30 bg-gradient-to-b from-zinc-900 via-zinc-900/75 to-transparent pb-6 pt-6'>
             <Search />
           </div>
           <div class='flex-auto border-t border-zinc-800/75 bg-zinc-900 pt-12'>

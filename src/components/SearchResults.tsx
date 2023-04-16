@@ -4,7 +4,7 @@ import {
   queue,
   results,
   searchIsActive,
-  searchOrigin,
+  origin,
   setFocusedResult,
   setQueue,
   setResults,
@@ -19,7 +19,7 @@ export const SearchResults = (props: { inputRef: HTMLInputElement | undefined })
     const newItem = {
       name: item.name,
       id: item.name,
-      origin: searchOrigin(),
+      origin: origin(),
       version: item.version ?? '',
     };
 
