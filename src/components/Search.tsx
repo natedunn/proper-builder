@@ -15,13 +15,15 @@ import {
   waitingForResults,
   setSearchTerm,
   searchTerm,
+  origin,
 } from '~/lib/signals';
-import { NPMResultsType } from '~/lib/types';
+import { NPMResultsType, Origin } from '~/lib/types';
 import { SearchResults } from './SearchResults';
 import { LoadingSpinner } from './icons/LoadingSpinner';
 
 import { useNavigate } from 'solid-start';
 import { OriginDropdown } from './OriginDropdown';
+import { searchOrigin } from '../lib/search';
 
 export const Search = () => {
   const navigate = useNavigate();
@@ -33,26 +35,18 @@ export const Search = () => {
 
   //
   // Server functions
-  const [searching, search] = createServerAction$(async (searchTerm: string) => {
-    const { data, error } = await fetch(
-      `https://api.npms.io/v2/search/suggestions?q=${searchTerm}`
-    ).then(async (res) => {
-      return {
-        data: (await res.json()) as NPMResultsType.NPMResult[],
-        error: !res.ok
-          ? {
-              status: res.status,
-              statusText: res.statusText,
-            }
-          : null,
-      };
-    });
+  const [searching, search] = createServerAction$(
+    async (args: { searchTerm: string; origin: Origin }) => {
+      const { searchTerm, origin } = args;
 
-    return {
-      data,
-      error,
-    };
-  });
+      const { data, error } = await searchOrigin[origin](searchTerm);
+
+      return {
+        data,
+        error,
+      };
+    }
+  );
 
   //
   // Client functions
@@ -64,7 +58,10 @@ export const Search = () => {
       return;
     }
     // else, fetch results
-    const { data, error } = await search(searchTerm());
+    const { data, error } = await search({
+      searchTerm: searchTerm(),
+      origin: origin(),
+    });
     setResults(data);
     setWaitingForResults(false);
     return data;
