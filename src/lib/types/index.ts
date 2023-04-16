@@ -1,6 +1,6 @@
 import * as NPMResultsType from './npm-res-types';
 
-export type Origin = 'npm' | 'cask' | 'homebrew' | 'composer';
+export type Origin = 'npm' | 'cask' | 'homebrew' | 'composer' | 'mas';
 export type QueueItemType = {
   name: string;
   origin: Origin;

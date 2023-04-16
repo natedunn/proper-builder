@@ -26,4 +26,5 @@ export const searchOrigin = {
   homebrew: npmSearch,
   cask: npmSearch,
   composer: npmSearch,
+  mas: npmSearch,
 };

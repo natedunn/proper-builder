@@ -15,4 +15,8 @@ export const origins = [
     title: 'Composer',
     value: 'composer',
   },
+  {
+    title: 'Mac App Store',
+    value: 'mas',
+  },
 ];
