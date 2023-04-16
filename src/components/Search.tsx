@@ -23,7 +23,7 @@ import { LoadingSpinner } from './icons/LoadingSpinner';
 
 import { useNavigate } from 'solid-start';
 import { OriginDropdown } from './OriginDropdown';
-import { searchOrigin } from '../lib/search';
+import { searchOrigin } from '../lib/searchOrigin';
 
 export const Search = () => {
   const navigate = useNavigate();
