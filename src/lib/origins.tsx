@@ -19,4 +19,4 @@ export const origins = [
     title: 'Mac App Store',
     value: 'mas',
   },
-];
+] as const;

@@ -42,7 +42,7 @@ export const OriginList = () => {
       <Show when={isOriginOptionsOpen()}>
         <ul
           id='origin-list'
-          class='absolute right-0 top-0 min-w-[10rem] rounded-lg bg-zinc-700 p-2'
+          class='absolute right-0 top-0 min-w-[11rem] rounded-lg bg-zinc-700 p-2 font-sans'
         >
           <For
             each={origins}
@@ -51,7 +51,7 @@ export const OriginList = () => {
                 id={`origin-${originOption.value}`}
                 tabIndex={originOption.value === origin() ? -1 : 0}
                 class={clsx(
-                  'flex w-full items-center justify-between space-x-2 rounded-md px-3 py-2 text-left',
+                  'flex w-full items-center justify-between space-x-2 rounded-md px-3 py-2 text-left text-sm',
                   originOption.value === origin()
                     ? 'cursor-default bg-zinc-800'
                     : 'hocus:bg-zinc-900 hocus:underline'
