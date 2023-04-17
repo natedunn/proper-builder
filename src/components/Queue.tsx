@@ -67,17 +67,40 @@ export const Queue = () => {
         }
       >
         <div class='pb-10'>
-          <h2 class='text-2xl font-bold'>Queued items</h2>
-          <ul class='mt-4 space-y-2'>
-            <For
-              each={queue()}
-              children={(item) => (
-                <li>
-                  <QueueItem item={item} />
-                </li>
-              )}
-            />
-          </ul>
+          <div class='space-y-10'>
+            <div class='space-y-4'>
+              <div class='flex items-center gap-6'>
+                <h3 class='text-xl font-bold'>NPM</h3>
+                <div class='flex-auto border-b border-zinc-700 ' />
+              </div>
+              <ul class='space-y-2'>
+                <For
+                  each={queue().filter((item) => item.origin === 'mas')}
+                  children={(item) => (
+                    <li>
+                      <QueueItem item={item} />
+                    </li>
+                  )}
+                />
+              </ul>
+            </div>
+            <div class='space-y-4'>
+              <div class='flex items-center gap-6'>
+                <h3 class='text-xl font-bold'>Mac App Store</h3>
+                <div class='flex-auto border-b border-zinc-700 ' />
+              </div>
+              <ul class='space-y-2'>
+                <For
+                  each={queue().filter((item) => item.origin === 'npm')}
+                  children={(item) => (
+                    <li>
+                      <QueueItem item={item} />
+                    </li>
+                  )}
+                />
+              </ul>
+            </div>
+          </div>
         </div>
         <div class='sticky bottom-4'>
           <div class='flex items-center justify-between gap-3 rounded-xl border border-zinc-700/75 bg-zinc-900/50 px-5 py-4 backdrop-blur-lg'>
