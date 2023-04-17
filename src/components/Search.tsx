@@ -62,6 +62,9 @@ export const Search = () => {
       searchTerm: searchTerm(),
       origin: origin(),
     });
+
+    if (error) console.warn(error);
+
     setResults(data);
     setWaitingForResults(false);
     return data;
