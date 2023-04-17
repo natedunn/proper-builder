@@ -9,7 +9,7 @@ import { MainNav } from '~/components/MainNav';
 import { HeaderAnimation } from '~/components/HeaderAnimation';
 
 // Signals
-import { queue, searchIsActive, setQueue } from '~/lib/signals';
+import { queue, searchIsActive, searchTerm, setQueue } from '~/lib/signals';
 import { loadingSavedQueue, setLoadingSavedQueue } from '~/lib/signals';
 import { Search } from '~/components/Search';
 import { Queue } from '~/components/Queue';
@@ -30,14 +30,14 @@ export default function BuildPage() {
           <div
             class={clsx(
               'relative z-10 transition-all duration-500 ease-in-out',
-              searchIsActive() ? 'pb-0' : 'pb-12 pt-20'
+              searchIsActive() || searchTerm() ? 'pb-0' : 'pb-12 pt-20'
             )}
           >
             <div
               class={clsx(
                 'container grid grid-rows-1fr overflow-hidden opacity-100 transition-all duration-500 ease-in-out',
                 {
-                  '!grid-rows-0fr !opacity-0': searchIsActive(),
+                  '!grid-rows-0fr !opacity-0': searchIsActive() || searchTerm(),
                 }
               )}
             >
