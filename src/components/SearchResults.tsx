@@ -16,28 +16,21 @@ export const SearchResults = (props: { inputRef: HTMLInputElement | undefined })
   //
   // Client functions
   const addToQueue = (item: QueueItem) => {
-    const newItem = {
-      name: item.name,
-      id: item.name,
-      origin: origin(),
-      version: item.version ?? '',
-    };
-
     const savedQueue = localStorage.getItem('_queue');
 
     // Return if already in queue
     if (savedQueue) {
       const parsedQueue = JSON.parse(savedQueue);
-      const alreadyInQueue = parsedQueue.find((i: QueueItem) => i.name === newItem.name);
+      const alreadyInQueue = parsedQueue.find((i: QueueItem) => i.name === item.name);
       if (alreadyInQueue) {
         console.log('Item already in queue');
         return;
       }
     }
 
-    localStorage.setItem('_queue', JSON.stringify([newItem, ...(queue() ?? [])]));
+    localStorage.setItem('_queue', JSON.stringify([item, ...(queue() ?? [])]));
 
-    setQueue((prev) => [newItem, ...(prev ?? [])]);
+    setQueue((prev) => [item, ...(prev ?? [])]);
     setResults(null);
     setSearchTerm('');
     props.inputRef.focus();
