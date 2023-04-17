@@ -1,5 +1,12 @@
 import type { MASResponse, NPMResponse, QueueItem } from './types';
 
+const formatDescription = (description: string | null) => {
+  const maxDescriptionLength = 100;
+  return description.length > maxDescriptionLength
+    ? description.substring(0, maxDescriptionLength - 3) + '...'
+    : description;
+};
+
 // NPM
 const npmSearch = async (query: string) => {
   const { data, error } = await fetch(`https://api.npms.io/v2/search/suggestions?q=${query}`).then(
@@ -21,9 +28,9 @@ const npmSearch = async (query: string) => {
       name: item.package.name,
       origin: 'npm',
       id: item.package.name,
-      description: item.package.description,
+      description: formatDescription(item.package.description),
       version: item.package.version,
-      url: item.package.links.npm,
+      url: item.package?.links?.npm,
     };
   }) satisfies QueueItem[];
 
@@ -54,9 +61,9 @@ const masSearch = async (query: string) => {
       name: item.trackName,
       origin: 'mas',
       id: item.trackId.toString(),
-      description: item.description,
-      version: item.version,
-      url: item.trackViewUrl,
+      description: formatDescription(item?.description),
+      version: item?.version,
+      url: item?.trackViewUrl,
     };
   }) satisfies QueueItem[];
 
