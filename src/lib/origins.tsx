@@ -12,11 +12,11 @@ export const origins = [
     value: 'cask',
   },
   {
-    title: 'Composer',
-    value: 'composer',
-  },
-  {
     title: 'Mac App Store',
     value: 'mas',
+  },
+  {
+    title: 'Composer',
+    value: 'composer',
   },
 ] as const;
