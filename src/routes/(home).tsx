@@ -75,9 +75,7 @@ export default function BuildPage() {
 
         {/* Footer */}
         <div class='bg-zinc-900'>
-          <div class='container'>
-            <FooterNav />
-          </div>
+          <FooterNav />
         </div>
       </div>
     </div>
