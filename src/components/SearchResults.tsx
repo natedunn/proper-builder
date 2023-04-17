@@ -10,12 +10,12 @@ import {
   setResults,
   setSearchTerm,
 } from '../lib/signals';
-import { NPMPackage, QueueItemType } from '~/lib/types';
+import { QueueItem } from '~/lib/types';
 
 export const SearchResults = (props: { inputRef: HTMLInputElement | undefined }) => {
   //
   // Client functions
-  const addToQueue = (item: NPMPackage) => {
+  const addToQueue = (item: QueueItem) => {
     const newItem = {
       name: item.name,
       id: item.name,
@@ -28,7 +28,7 @@ export const SearchResults = (props: { inputRef: HTMLInputElement | undefined })
     // Return if already in queue
     if (savedQueue) {
       const parsedQueue = JSON.parse(savedQueue);
-      const alreadyInQueue = parsedQueue.find((i: QueueItemType) => i.name === newItem.name);
+      const alreadyInQueue = parsedQueue.find((i: QueueItem) => i.name === newItem.name);
       if (alreadyInQueue) {
         console.log('Item already in queue');
         return;
@@ -112,26 +112,24 @@ export const SearchResults = (props: { inputRef: HTMLInputElement | undefined })
         <For
           each={results()}
           children={(result, index) => {
-            if (!result?.package || index() > 4) return null;
-
-            const { name, description, version } = result.package;
+            if (!result || index() > 4) return null;
             return (
               <li>
                 <button
                   id={`result-${index()}`}
                   class='group relative flex w-full flex-col justify-start space-y-2 rounded-lg px-3.5 py-3 text-left hocus:bg-zinc-800 hocus:outline-none'
                   onClick={() => {
-                    result?.package ? addToQueue(result.package) : null;
+                    result ? addToQueue(result) : null;
                   }}
                   onFocus={() => setFocusedResult(index())}
                 >
                   <div class='flex w-full items-center justify-between gap-2'>
                     <h2 class='font-bold decoration-2 underline-offset-2 group-hover:underline'>
-                      {name}
+                      {result.name}
                     </h2>
-                    {version ? <div class='text-zinc-500'>{version}</div> : null}
+                    {result?.version ? <div class='text-zinc-500'>{result.version}</div> : null}
                   </div>
-                  <p class='font-sans text-zinc-500'>{description ?? 'No description'}</p>
+                  <p class='font-sans text-zinc-500'>{result.description ?? 'No description'}</p>
                 </button>
               </li>
             );

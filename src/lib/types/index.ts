@@ -4,9 +4,11 @@ import { MASResponse, MASResult } from './response/mas';
 export { NPMResponse, NPMPackage, MASResponse, MASResult };
 
 export type Origin = 'npm' | 'cask' | 'homebrew' | 'composer' | 'mas';
-export type QueueItemType = {
+export type QueueItem = {
   name: string;
   origin: Origin;
-  version: string;
   id: string;
+  version?: string;
+  description?: string;
+  url?: string;
 };

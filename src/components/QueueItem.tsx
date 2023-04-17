@@ -1,8 +1,8 @@
 import { setQueue } from '~/lib/signals';
-import type { QueueItemType } from '~/lib/types';
+import type { QueueItem as _QueueItem } from '~/lib/types';
 
 type QueueItemProps = {
-  item: QueueItemType;
+  item: _QueueItem;
 };
 
 export const QueueItem = (props: QueueItemProps) => {
@@ -10,7 +10,7 @@ export const QueueItem = (props: QueueItemProps) => {
     const savedQueue = localStorage.getItem('_queue');
     if (savedQueue) {
       const parsedQueue = JSON.parse(savedQueue);
-      const newQueue = parsedQueue.filter((i: QueueItemType) => i.name !== props.item.name);
+      const newQueue = parsedQueue.filter((i: _QueueItem) => i.name !== props.item.name);
       localStorage.setItem('_queue', JSON.stringify(newQueue));
       setQueue(newQueue);
     }
