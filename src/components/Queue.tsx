@@ -75,7 +75,7 @@ export const Queue = () => {
               </div>
               <ul class='space-y-2'>
                 <For
-                  each={queue().filter((item) => item.origin === 'mas')}
+                  each={queue().filter((item) => item.origin === 'npm')}
                   children={(item) => (
                     <li>
                       <QueueItem item={item} />
@@ -91,7 +91,7 @@ export const Queue = () => {
               </div>
               <ul class='space-y-2'>
                 <For
-                  each={queue().filter((item) => item.origin === 'npm')}
+                  each={queue().filter((item) => item.origin === 'mas')}
                   children={(item) => (
                     <li>
                       <QueueItem item={item} />
