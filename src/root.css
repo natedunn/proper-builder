@@ -11,7 +11,11 @@ body {
 }
 
 .button {
-  @apply rounded-lg bg-amber-500 px-4 py-2.5 font-sans text-sm font-bold tracking-wide text-zinc-900 hover:bg-amber-400;
+  @apply inline-flex items-center space-x-2 rounded-lg bg-amber-500 px-4 py-2.5 font-sans text-sm font-bold tracking-wide text-zinc-900 transition-colors duration-150 ease-in-out hocus:bg-amber-400;
+}
+
+.button-secondary {
+  @apply inline-flex items-center space-x-2 rounded-lg border border-zinc-600 bg-zinc-800 px-4 py-2.5 font-sans text-sm font-bold tracking-wide text-zinc-100 transition-colors duration-150 ease-in-out hocus:border-zinc-500 hocus:bg-zinc-900;
 }
 
 .link {
