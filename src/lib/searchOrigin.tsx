@@ -5,6 +5,7 @@ import type {
   QueueItem,
   HomebrewResponse,
   ComposerResponse,
+  CaskResponse,
 } from './types';
 
 //
@@ -82,6 +83,28 @@ const homebrew = (query: string) => {
   });
 };
 
+const cask = (query: string) => {
+  return search<CaskResponse>(`https://formulae.brew.sh/api/cask.json`, (data) => {
+    const fuse = new Fuse(data, {
+      keys: ['name'],
+    });
+
+    const results = fuse.search(query);
+
+    return results.map((fuseItem) => {
+      const item = fuseItem.item;
+      return {
+        origin: 'cask',
+        name: item.name[0],
+        id: item.full_token,
+        description: formatDescription(item?.desc),
+        version: item?.version,
+        url: item?.homepage,
+      };
+    });
+  });
+};
+
 const mas = (query: string) => {
   return search<MASResponse>(
     `http://itunes.apple.com/search?entity=macSoftware&term=${query}`,
@@ -121,7 +144,7 @@ const composer = (query: string) => {
 export const searchOrigin = {
   npm,
   homebrew,
-  cask: npm,
+  cask,
   composer,
   mas,
 };
