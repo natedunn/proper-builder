@@ -6,7 +6,7 @@
 
 Generate your own bash script to globally install from NPM, Homebrew, Mac app store, & Composer.
 
-> ⚠️ This app is a Proper script builder, _not_ the source code of the [Proper script](https://github.com/useproper/proper).
+> ⚠️ This app is a _script builder_, not the source code of the [Proper script](https://github.com/useproper/proper).
 
 ## Colophon
 
