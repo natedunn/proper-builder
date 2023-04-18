@@ -1,6 +1,7 @@
 import { Show, For, onMount } from 'solid-js';
 import { QueueItem } from './QueueItem';
 import { loadingSavedQueue, queue, setLoadingSavedQueue, setQueue } from '~/lib/signals';
+import { generateZip } from '~/lib/generate-zip';
 
 export const Queue = () => {
   const handleClear = () => {
@@ -158,7 +159,7 @@ export const Queue = () => {
         <div class='sticky bottom-4'>
           <div class='flex items-center justify-between gap-3 rounded-xl border border-zinc-700/75 bg-zinc-900/50 px-5 py-4 backdrop-blur-lg'>
             <div class='flex gap-3'>
-              <button class='button'>
+              <button class='button' onClick={() => generateZip(queue())}>
                 <span class='inline-block'>
                   <svg
                     class='h-4 w-4'
