@@ -1,8 +1,7 @@
-import { NPMResponse, NPMPackage } from './response/npm';
-import { MASResponse, MASResult } from './response/mas';
-import { HomebrewResponse } from './response/homebrew';
-
-export { NPMResponse, NPMPackage, MASResponse, MASResult, HomebrewResponse };
+export { NPMResponse, NPMPackage } from './response/npm';
+export { MASResponse, MASResult } from './response/mas';
+export { HomebrewResponse } from './response/homebrew';
+export { ComposerResponse, ComposerResult } from './response/composer';
 
 export type Origin = 'npm' | 'cask' | 'homebrew' | 'composer' | 'mas';
 export type QueueItem = {

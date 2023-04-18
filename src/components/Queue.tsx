@@ -68,6 +68,7 @@ export const Queue = () => {
       >
         <div class='pb-10'>
           <div class='space-y-10'>
+            {/* NPM */}
             <div class='space-y-4'>
               <div class='flex items-center gap-6'>
                 <h3 class='text-xl font-bold'>NPM</h3>
@@ -84,6 +85,7 @@ export const Queue = () => {
                 />
               </ul>
             </div>
+            {/* Homebrew */}
             <div class='space-y-4'>
               <div class='flex items-center gap-6'>
                 <h3 class='text-xl font-bold'>Homebrew</h3>
@@ -100,6 +102,7 @@ export const Queue = () => {
                 />
               </ul>
             </div>
+            {/* MAS */}
             <div class='space-y-4'>
               <div class='flex items-center gap-6'>
                 <h3 class='text-xl font-bold'>Mac App Store</h3>
@@ -108,6 +111,23 @@ export const Queue = () => {
               <ul class='space-y-2'>
                 <For
                   each={queue().filter((item) => item.origin === 'mas')}
+                  children={(item) => (
+                    <li>
+                      <QueueItem item={item} />
+                    </li>
+                  )}
+                />
+              </ul>
+            </div>
+            {/* Composer */}
+            <div class='space-y-4'>
+              <div class='flex items-center gap-6'>
+                <h3 class='text-xl font-bold'>Composer</h3>
+                <div class='flex-auto border-b border-zinc-700 ' />
+              </div>
+              <ul class='space-y-2'>
+                <For
+                  each={queue().filter((item) => item.origin === 'composer')}
                   children={(item) => (
                     <li>
                       <QueueItem item={item} />

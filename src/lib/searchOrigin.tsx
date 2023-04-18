@@ -1,5 +1,11 @@
 import Fuse from 'fuse.js';
-import type { MASResponse, NPMResponse, QueueItem, HomebrewResponse } from './types';
+import type {
+  MASResponse,
+  NPMResponse,
+  QueueItem,
+  HomebrewResponse,
+  ComposerResponse,
+} from './types';
 
 //
 // Types
@@ -54,7 +60,7 @@ const npm = (query: string) => {
   );
 };
 
-const homebrew = async (query: string) => {
+const homebrew = (query: string) => {
   return search<HomebrewResponse>(`https://formulae.brew.sh/api/formula.json`, (data) => {
     const fuse = new Fuse(data, {
       keys: ['name', 'desc', 'full_name'],
@@ -65,24 +71,25 @@ const homebrew = async (query: string) => {
     return results.map((fuseItem) => {
       const item = fuseItem.item;
       return {
-        name: item.name,
         origin: 'homebrew',
+        name: item.name,
         id: item.name,
-        description: formatDescription(item.desc),
-        version: item.versions.stable,
+        description: formatDescription(item?.desc),
+        version: item?.versions?.stable,
+        url: item?.homepage,
       };
     });
   });
 };
 
-const mas = async (query: string) => {
+const mas = (query: string) => {
   return search<MASResponse>(
     `http://itunes.apple.com/search?entity=macSoftware&term=${query}`,
     (data) =>
       data.results.map((item) => {
         return {
-          name: item.trackName,
           origin: 'mas',
+          name: item.trackName,
           id: item.trackId.toString(),
           description: formatDescription(item?.description),
           version: item?.version,
@@ -92,12 +99,29 @@ const mas = async (query: string) => {
   );
 };
 
+const composer = (query: string) => {
+  console.log('composer search running');
+  return search<ComposerResponse>(`https://packagist.org/search.json?q=${query}`, (data) =>
+    data.results.map((item) => {
+      console.log(item);
+      return {
+        origin: 'composer',
+        name: item.name,
+        id: item.name,
+        description: formatDescription(item?.description),
+        version: null,
+        url: item?.url,
+      };
+    })
+  );
+};
+
 //
 // Exports
 export const searchOrigin = {
   npm,
-  homebrew: homebrew,
+  homebrew,
   cask: npm,
-  composer: npm,
+  composer,
   mas,
 };
