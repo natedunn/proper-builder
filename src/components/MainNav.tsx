@@ -29,6 +29,11 @@ export const MainNav = () => {
             How to use
           </A>
         </li>
+        <li>
+          <A class={linkClasses} href='/about'>
+            About
+          </A>
+        </li>
       </ul>
     </div>
   );
