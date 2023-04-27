@@ -84,7 +84,7 @@ sh proper
                 There are a list of{' '}
                 <a
                   class='link underline'
-                  href='https://github.com/natedunn/proper/blob/main/KNOWN-ISSUES.MD'
+                  href='https://github.com/natedunn/proper/blob/main/KNOWN-ISSUES.md'
                   target='_blank'
                 >
                   known issues
