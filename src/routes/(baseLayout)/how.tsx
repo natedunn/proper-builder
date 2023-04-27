@@ -84,7 +84,8 @@ sh proper
                 There are a list of{' '}
                 <a
                   class='link underline'
-                  href='https://github.com/useproper/proper/blob/main/known-issues.md'
+                  href='https://github.com/natedunn/proper/blob/main/KNOWN-ISSUES.MD'
+                  target='_blank'
                 >
                   known issues
                 </a>
@@ -92,7 +93,7 @@ sh proper
                 <a
                   class='link underline'
                   target='_blank'
-                  href='https://github.com/useproper/proper/issues'
+                  href='https://github.com/natedunn/proper/issues'
                 >
                   please file an issue
                 </a>

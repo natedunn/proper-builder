@@ -1,5 +1,3 @@
-import { A } from 'solid-start';
-
 export const FooterNav = () => {
   const currentYear = new Date().getFullYear();
   return (
@@ -13,7 +11,7 @@ export const FooterNav = () => {
         </div>
         <div class='flex items-center space-x-2'>
           <div>
-            <a class='link' href='https://github.com/useproper/proper-app'>
+            <a class='link' href='https://github.com/natedunn/proper-builder'>
               Github
             </a>
           </div>
