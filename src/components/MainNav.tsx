@@ -5,7 +5,7 @@ export const MainNav = () => {
   return (
     <div class='flex w-full items-center justify-between py-4'>
       <div class='flex items-center space-x-2'>
-        <A class='space-x-2 text-xl font-bold hover:text-amber-500' href='/'>
+        <A class='space-x-2 text-xl font-bold hover:text-rose-500' href='/'>
           <span class='inline-block'>
             <svg class='h-4 w-4' viewBox='0 0 47 29' fill='none' xmlns='http://www.w3.org/2000/svg'>
               <path
@@ -16,7 +16,7 @@ export const MainNav = () => {
           </span>
           <span class='inline-block'>Proper</span>
         </A>
-        <div class='rounded-md bg-amber-500/50 px-2 py-0.5 text-xs font-bold'>Beta</div>
+        <div class='rounded-md bg-rose-500/50 px-2 py-0.5 text-xs font-bold'>Beta</div>
       </div>
       <ul class='flex gap-4 font-sans'>
         <li>

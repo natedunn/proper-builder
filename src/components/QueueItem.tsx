@@ -23,7 +23,7 @@ export const QueueItem = (props: QueueItemProps) => {
       <div class='opacity-10'>|</div>
       <Show when={!!props.item.url}>
         <a
-          class='rounded bg-zinc-700 p-1 hocus:bg-amber-500 hocus:text-amber-950 hocus:outline-none'
+          class='rounded bg-zinc-700 p-1 hocus:bg-rose-500 hocus:text-rose-950 hocus:outline-none'
           href={props.item.url}
           target='_blank'
           rel='noreferrer'
@@ -39,7 +39,7 @@ export const QueueItem = (props: QueueItemProps) => {
         </a>
       </Show>
       <button
-        class='rounded bg-zinc-700 p-1 hocus:bg-amber-500 hocus:text-amber-950 hocus:outline-none'
+        class='rounded bg-zinc-700 p-1 hocus:bg-rose-500 hocus:text-rose-950 hocus:outline-none'
         onClick={removeItem}
       >
         <svg class='h-4 w-4' viewBox='0 0 15 15' fill='none' xmlns='http://www.w3.org/2000/svg'>

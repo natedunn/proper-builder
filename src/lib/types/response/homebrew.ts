@@ -73,7 +73,7 @@ export type Installed = {
   version?: string;
   used_options?: any[];
   built_as_bottle?: boolean;
-  poured_from_bottle?: boolean;
+  pourose_from_bottle?: boolean;
   time?: number;
   runtime_dependencies?: RuntimeDependency[];
   installed_as_dependency?: boolean;
@@ -83,7 +83,7 @@ export type Installed = {
 export type RuntimeDependency = {
   full_name?: string;
   version?: string;
-  declared_directly?: boolean;
+  declarose_directly?: boolean;
 };
 
 export type KegOnlyReason = {

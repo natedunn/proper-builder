@@ -137,7 +137,7 @@ export const Search = () => {
       <div class='container relative z-30' ref={searchWrapper}>
         <div class='relative'>
           <input
-            class='peer relative z-0 w-full rounded-xl border border-zinc-700 bg-zinc-950/50 py-5 pl-[3.25rem] pr-5 text-2xl font-bold text-zinc-100 caret-amber-500 shadow-2xl shadow-black/50 outline-0 ring-0 ring-transparent backdrop-blur-lg transition-all duration-300 ease-in-out placeholder:font-normal placeholder:text-zinc-600 hover:border-zinc-600 focus:border-amber-500 focus:bg-zinc-900/50 focus:outline-0 focus:ring-4 focus:ring-amber-300/20'
+            class='peer relative z-0 w-full rounded-xl border border-zinc-700 bg-zinc-950/50 py-5 pl-[3.25rem] pr-5 text-2xl font-bold text-zinc-100 caret-rose-500 shadow-2xl shadow-black/50 outline-0 ring-0 ring-transparent backdrop-blur-lg transition-all duration-300 ease-in-out placeholder:font-normal placeholder:text-zinc-600 hover:border-zinc-600 focus:border-rose-500 focus:bg-zinc-900/50 focus:outline-0 focus:ring-4 focus:ring-rose-300/20'
             name='search'
             type='text'
             value={searchTerm()}
@@ -148,7 +148,7 @@ export const Search = () => {
             onBlur={() => setSearchInputIsFocused(false)}
           />
           <div
-            class={`transition-color absolute left-0 top-0 z-10 mx-4 my-3 flex h-[calc(100%-1.5rem)] items-center justify-center text-zinc-500 duration-300 ease-in-out peer-focus:text-amber-500`}
+            class={`transition-color absolute left-0 top-0 z-10 mx-4 my-3 flex h-[calc(100%-1.5rem)] items-center justify-center text-zinc-500 duration-300 ease-in-out peer-focus:text-rose-500`}
           >
             <Show
               when={waitingForResults()}
@@ -171,7 +171,7 @@ export const Search = () => {
                 </svg>
               }
             >
-              <LoadingSpinner class='h-6 w-6 text-amber-500' />
+              <LoadingSpinner class='h-6 w-6 text-rose-500' />
             </Show>
           </div>
           <div

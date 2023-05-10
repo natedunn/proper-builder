@@ -22,7 +22,7 @@ export const OriginDropdown = () => {
       <button
         ref={buttonRef}
         id='origin-button'
-        class='flex h-full items-center space-x-1 rounded-lg bg-zinc-800 px-4 py-2 text-sm text-amber-50 transition-all duration-200 ease-in-out hover:bg-amber-500 hover:text-amber-950'
+        class='flex h-full items-center space-x-1 rounded-lg bg-zinc-800 px-4 py-2 text-sm text-rose-50 transition-all duration-200 ease-in-out hover:bg-rose-500 hover:text-rose-950'
         tabIndex={isOriginOptionsOpen() ? -1 : 0}
         onClick={isOriginOptionsOpen() ? null : () => setIsOriginOptionsOpen((value) => !value)}
       >

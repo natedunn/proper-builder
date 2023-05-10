@@ -33,7 +33,7 @@ export type MASResult = {
   sellerName?: string;
   currentVersionReleaseDate?: Date;
   minimumOsVersion?: string;
-  trackCensoredName?: string;
+  trackCensoroseName?: string;
   languageCodesISO2A?: string[];
   fileSizeBytes?: string;
   formattedPrice?: string;
